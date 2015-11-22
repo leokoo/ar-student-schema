@@ -6,7 +6,7 @@ class MergeNames < ActiveRecord::Migration
 		add_column :students, :name, :string
 
 		Student.all.each do |person|
-		person.update (name: "#{person.first_name} #{person.last_name}")
+		person.update :name => "#{person.first_name} #{person.last_name}"
 		end
 		remove_column :students, :first_name
 		remove_column :students, :last_name
@@ -17,8 +17,8 @@ class MergeNames < ActiveRecord::Migration
 		add_column :students, :last_name, :string
 
 		Student.all.each do |person|
-			person.update :first_name => "#{person.name.match(/\w+/)[0]}"
-			person.update :last_name => "#{person.name.match(/\w+/)[1]}"
+			person.update :first_name => person.name.match(/\w+/)[0]
+			person.update :last_name => person.name.match(/\w+/)[1]
 		end
 		remove_column :students, :name
 	end
